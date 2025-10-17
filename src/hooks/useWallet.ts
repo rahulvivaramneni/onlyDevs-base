@@ -3,13 +3,13 @@
 import { createBaseAccountSDK } from "@base-org/account";
 import { useCallback, useEffect, useState } from "react";
 import { baseSepolia } from "viem/chains";
-import { encodeFunctionData, parseUnits } from "viem";
+import { encodeFunctionData, parseUnits, formatUnits } from "viem";
 
 // USDC contract address on Base Sepolia
 const USDC_ADDRESS = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
 const RECIPIENT_ADDRESS = "0x90479a1128ab97888fDc2507a63C9cb50B3417fb";
 
-// ERC-20 ABI for transfer function
+// ERC-20 ABI for transfer and balanceOf functions
 const ERC20_ABI = [
   {
     inputs: [
@@ -19,6 +19,20 @@ const ERC20_ABI = [
     name: "transfer",
     outputs: [{ name: "", type: "bool" }],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ name: "account", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "decimals",
+    outputs: [{ name: "", type: "uint8" }],
+    stateMutability: "view",
     type: "function",
   },
 ] as const;
@@ -32,6 +46,7 @@ export interface WalletState {
   subAccountAddress: string;
   loading: boolean;
   status: string;
+  usdcBalance: string;
 }
 
 export function useWallet() {
@@ -43,6 +58,7 @@ export function useWallet() {
   const [subAccountAddress, setSubAccountAddress] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Ready to connect");
+  const [usdcBalance, setUsdcBalance] = useState<string>("0.00");
 
   // Initialize SDK with quickstart configuration
   useEffect(() => {
@@ -111,6 +127,48 @@ export function useWallet() {
       setLoading(false);
     }
   };
+
+  const fetchUSDCBalance = useCallback(async () => {
+    if (!provider || !subAccountAddress) {
+      setUsdcBalance("0.00");
+      return;
+    }
+
+    try {
+      const data = encodeFunctionData({
+        abi: ERC20_ABI,
+        functionName: "balanceOf",
+        args: [subAccountAddress as `0x${string}`],
+      });
+
+      const result = (await provider.request({
+        method: "eth_call",
+        params: [
+          {
+            to: USDC_ADDRESS,
+            data: data,
+          },
+          "latest",
+        ],
+      })) as string;
+
+      const balanceBigInt = BigInt(result);
+      const formattedBalance = formatUnits(balanceBigInt, 6);
+      
+      const roundedBalance = parseFloat(formattedBalance).toFixed(2);
+      setUsdcBalance(roundedBalance);
+    } catch (error) {
+      console.error("Failed to fetch USDC balance:", error);
+      setUsdcBalance("0.00");
+    }
+  }, [provider, subAccountAddress]);
+
+  // Fetch USDC balance when wallet connects
+  useEffect(() => {
+    if (connected && subAccountAddress) {
+      fetchUSDCBalance();
+    }
+  }, [connected, subAccountAddress, fetchUSDCBalance]);
 
   const sendPayment = useCallback(
     async (amount: string) => {
@@ -183,7 +241,9 @@ export function useWallet() {
     subAccountAddress,
     loading,
     status,
+    usdcBalance,
     connectWallet,
     sendPayment,
+    fetchUSDCBalance,
   };
 }

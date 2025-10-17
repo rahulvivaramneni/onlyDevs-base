@@ -11,6 +11,8 @@ export default function Profile() {
     subAccountAddress,
     connectWallet,
     loading,
+    usdcBalance,
+    fetchUSDCBalance,
   } = useWallet();
 
   // Mock profile data
@@ -115,6 +117,17 @@ export default function Profile() {
               </div>
             ) : (
               <div className="wallet-info">
+                <div className="wallet-balance">
+                  <label>USDC Balance:</label>
+                  <span className="balance-amount">${usdcBalance}</span>
+                  <button 
+                    className="refresh-button"
+                    onClick={fetchUSDCBalance}
+                    disabled={loading}
+                  >
+                    🔄
+                  </button>
+                </div>
                 <div className="wallet-address">
                   <label>Universal Account:</label>
                   <span className="address">{universalAddress}</span>

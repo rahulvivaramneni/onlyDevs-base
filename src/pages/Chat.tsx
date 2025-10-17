@@ -87,16 +87,18 @@ export default function Chat({
       try {
         setIsLoadingGig(true);
         const response = await fetch(`/api/gigs/${params.gigId}`);
-        
+
         if (!response.ok) {
-          throw new Error('Failed to fetch gig');
+          throw new Error("Failed to fetch gig");
         }
-        
+
         const gigData = await response.json();
         setGig(gigData);
-        
+
         // Find the specific mentor
-        const foundMentor = gigData.mentors.find((m: any) => m.id === params.mentorId);
+        const foundMentor = gigData.mentors.find(
+          (m: any) => m.id === params.mentorId
+        );
         if (foundMentor) {
           setMentor(foundMentor);
         } else {
@@ -104,7 +106,7 @@ export default function Chat({
           setMentor(mockMentor);
         }
       } catch (error) {
-        console.error('Error fetching gig:', error);
+        console.error("Error fetching gig:", error);
         // Fallback to mock data
         setMentor(mockMentor);
         setGig({ bounty: "15" }); // Default bounty
