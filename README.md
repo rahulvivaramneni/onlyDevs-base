@@ -5,6 +5,7 @@
 ## 🚀 **The Problem We're Solving**
 
 Developers often get stuck on coding issues and need expert help, but traditional debugging support is either:
+
 - **Expensive** (consulting fees)
 - **Slow** (forums, Stack Overflow)
 - **Inconvenient** (scheduling calls, time zones)
@@ -12,16 +13,17 @@ Developers often get stuck on coding issues and need expert help, but traditiona
 ## 💡 **Our Solution: OnlyDevs**
 
 OnlyDevs is a peer-to-peer live debugging platform where developers can:
+
 1. **Post coding challenges** with custom bounty amounts
 2. **Connect with expert mentors** for real-time debugging
 3. **Pay only when problems are solved** using USDC on Base
 4. **Debug live** via chat and video calls
 
-## 🔥 **Key Innovation: Base Account SDK Integration**
+## 🔥 ** Base Account SDK Integration**
 
 ### **Seamless Payments Without Wallet Popups**
 
-Our biggest technical achievement is implementing **Base Account SDK** with **spend permissions** that eliminate the need for wallet popups during payments:
+**Base Account SDK** with **spend permissions** that eliminate the need for wallet popups during payments:
 
 ```typescript
 // Traditional approach - requires wallet popup for every transaction
@@ -40,9 +42,9 @@ const callsId = await provider.request({
       data: encodedTransferData,
       value: "0x0",
     }],
-    capabilities: {}, // Spend permissions handled automatically
+    capabilities: {},
   }],
-}); // ✅ No popup, seamless payment
+});
 ```
 
 ### **Automatic Sub-Account Creation**
@@ -56,39 +58,29 @@ const sdk = createBaseAccountSDK({
   appChainIds: [baseSepolia.id],
   subAccounts: {
     creation: "on-connect", // Auto-create sub account
-    defaultAccount: "sub",   // Use sub account for transactions
+    defaultAccount: "sub", // Use sub account for transactions
   },
-});
-```
-
-### **Micro-Payment Support**
-
-Support for payments as low as **0.0001 USDC**:
-
-```typescript
-const amountInUnits = parseUnits("0.0001", 6); // Supports micro-payments
-const data = encodeFunctionData({
-  abi: ERC20_ABI,
-  functionName: "transfer",
-  args: [recipientAddress, amountInUnits],
 });
 ```
 
 ## 🛠️ **Technical Architecture**
 
 ### **Frontend Stack**
+
 - **Next.js 14** with App Router
 - **TypeScript** for type safety
 - **TailwindCSS** for styling
 - **Framer Motion** for animations
 
 ### **Blockchain Integration**
+
 - **Base Account SDK** for wallet management
 - **Viem** for transaction encoding
 - **USDC on Base Sepolia** for payments
 - **ERC-20 ABI** for token transfers
 
 ### **Real-time Features**
+
 - **Huddle01** for video calls
 - **Mock chat system** for real-time messaging
 - **Local state management** with React Context
@@ -96,24 +88,28 @@ const data = encodeFunctionData({
 ## 🎯 **Core Features**
 
 ### **1. Gig Posting System**
+
 - Developers post coding challenges
 - Set custom bounty amounts (minimum 0.0001 USDC)
 - Add tags for categorization
 - Real-time mentor matching
 
 ### **2. Mentor Marketplace**
+
 - Expert developers browse available gigs
 - Professional profiles with Base reputation scores
 - Specialized skills and completed gig history
 - One-click approval system
 
 ### **3. Live Debugging Sessions**
+
 - Real-time chat interface
 - Video call integration via Huddle01
 - Screen sharing capabilities
 - Session recording (optional)
 
 ### **4. Seamless Payment System**
+
 - **No wallet popups** during payment
 - Automatic USDC transfers on problem resolution
 - Transaction confirmation with BaseScan links
@@ -122,12 +118,14 @@ const data = encodeFunctionData({
 ## 🔧 **Base Account SDK Benefits**
 
 ### **For Users:**
+
 - **One-time wallet connection** - no repeated popups
 - **Automatic sub-account creation** - enhanced privacy
 - **Seamless payments** - no transaction confirmations
 - **Micro-payment support** - pay as little as 0.0001 USDC
 
 ### **For Developers:**
+
 - **Simplified integration** - fewer user friction points
 - **Better UX** - no wallet popup interruptions
 - **Enhanced security** - sub-accounts isolate funds
@@ -136,6 +134,7 @@ const data = encodeFunctionData({
 ## 🚀 **Getting Started**
 
 ### **Prerequisites**
+
 - Node.js 18+
 - Base Account (create at [account.base.app](https://account.base.app))
 - USDC on Base Sepolia testnet
@@ -143,6 +142,7 @@ const data = encodeFunctionData({
 ### **Quick Setup**
 
 1. **Clone and install**:
+
 ```bash
 git clone https://github.com/YOUR_USERNAME/OnlyDev-base.git
 cd OnlyDev-base
@@ -150,12 +150,14 @@ npm install
 ```
 
 2. **Configure environment**:
+
 ```bash
 cp .env.example .env.local
 # Edit .env.local with your Base Account settings
 ```
 
 3. **Run the application**:
+
 ```bash
 npm run dev
 ```
@@ -174,18 +176,21 @@ npm run dev
 ## 🏆 **Hackathon Highlights**
 
 ### **Technical Innovation**
+
 - **First-of-its-kind** debugging platform with Base Account SDK
 - **Zero-popup payments** using spend permissions
 - **Micro-payment support** for flexible pricing
 - **Real-time collaboration** tools
 
 ### **User Experience**
+
 - **One-click mentor approval** - no complex workflows
 - **Instant payments** - no waiting for confirmations
 - **Professional profiles** - Base reputation system
 - **Mobile-responsive** design
 
 ### **Blockchain Integration**
+
 - **Base Account SDK** for seamless wallet experience
 - **USDC payments** on Base Sepolia
 - **Sub-account isolation** for enhanced security
@@ -202,6 +207,7 @@ npm run dev
 ## 🤝 **Contributing**
 
 This is a hackathon project! Feel free to:
+
 - Fork and experiment
 - Submit issues and suggestions
 - Contribute to the codebase
@@ -219,5 +225,3 @@ MIT License - Built for the Base ecosystem hackathon
 - [Base Sepolia Faucet](https://bridge.base.org/deposit)
 
 ---
-
-**Built with ❤️ using Base Account SDK - Revolutionizing developer collaboration through seamless blockchain payments**
