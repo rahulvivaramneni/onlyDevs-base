@@ -19,7 +19,7 @@
           "specialties": ["React", "JavaScript", "Performance"],
           "baseReputation": 4200,
           "completedGigs": 67,
-          "baseName": "sarah.dev"
+          "baseName": "sarahcd.base.eth"
         }
       ]
     },
@@ -42,7 +42,7 @@
           "specialties": ["Solidity", "Smart Contracts", "DeFi"],
           "baseReputation": 5800,
           "completedGigs": 89,
-          "baseName": "marcus.eth"
+          "baseName": "marcuswin.base.eth"
         }
       ]
     },
@@ -65,7 +65,7 @@
           "specialties": ["Next.js", "TypeScript", "Full Stack"],
           "baseReputation": 3600,
           "completedGigs": 45,
-          "baseName": "emily.base"
+          "baseName": "emily.base.eth"
         }
       ]
     }
