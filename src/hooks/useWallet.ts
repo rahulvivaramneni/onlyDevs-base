@@ -6,8 +6,8 @@ import { baseSepolia } from "viem/chains";
 import { encodeFunctionData, parseUnits, formatUnits } from "viem";
 
 // USDC contract address on Base Sepolia
-const USDC_ADDRESS = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
-const RECIPIENT_ADDRESS = "0x90479a1128ab97888fDc2507a63C9cb50B3417fb";
+const USDC_ADDRESS = process.env.NEXT_PUBLIC_USDC_ADDRESS || "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+const RECIPIENT_ADDRESS = process.env.NEXT_PUBLIC_RECIPIENT_ADDRESS || "0x90479a1128ab97888fDc2507a63C9cb50B3417fb";
 
 // ERC-20 ABI for transfer and balanceOf functions
 const ERC20_ABI = [
@@ -102,8 +102,8 @@ export function useWallet() {
     const initializeSDK = async () => {
       try {
         const sdkInstance = createBaseAccountSDK({
-          appName: "OnlyDevs",
-          appLogoUrl: "https://base.org/logo.png",
+          appName: process.env.NEXT_PUBLIC_APP_NAME || "OnlyDevs",
+          appLogoUrl: process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
           appChainIds: [baseSepolia.id],
           // Quickstart configuration
           subAccounts: {

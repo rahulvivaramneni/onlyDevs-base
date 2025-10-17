@@ -59,24 +59,7 @@ npm install
 cp .env.example .env.local
 ```
 
-Edit `.env.local` with your configuration:
-
-```env
-# Base Account SDK Configuration
-NEXT_PUBLIC_APP_NAME=OnlyDevs
-NEXT_PUBLIC_APP_LOGO_URL=https://base.org/logo.png
-NEXT_PUBLIC_CHAIN_ID=84532
-
-# USDC Contract Address (Base Sepolia)
-NEXT_PUBLIC_USDC_ADDRESS=0x036CbD53842c5426634e7929541eC2318f3dCF7e
-
-# Recipient Wallet Address (for payments)
-NEXT_PUBLIC_RECIPIENT_ADDRESS=0x90479a1128ab97888fDc2507a63C9cb50B3417fb
-
-# Huddle01 Configuration (for video calls)
-NEXT_PUBLIC_HUDDLE01_PROJECT_ID=pi_oH3VVFDoZ51x4X7d
-NEXT_PUBLIC_HUDDLE01_ROOM_URL=https://huddle01.app/room/bbo-uolo-yxb
-```
+Edit `.env.local` with your configuration (see `.env.example` for all available variables).
 
 4. **Run the development server**:
 
@@ -102,8 +85,8 @@ The app uses Base Account SDK with automatic sub-account creation:
 
 ```typescript
 const sdk = createBaseAccountSDK({
-  appName: "OnlyDevs",
-  appLogoUrl: "https://base.org/logo.png",
+  appName: process.env.NEXT_PUBLIC_APP_NAME || "OnlyDevs",
+  appLogoUrl: process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
   appChainIds: [baseSepolia.id],
   subAccounts: {
     creation: "on-connect", // Auto-create sub account on connect
@@ -116,7 +99,7 @@ const sdk = createBaseAccountSDK({
 
 - **Token**: USDC on Base Sepolia
 - **Minimum Amount**: 0.0001 USDC
-- **Recipient**: Hardcoded address for demo purposes
+- **Recipient**: Configurable via `NEXT_PUBLIC_RECIPIENT_ADDRESS`
 - **Transaction**: Uses `wallet_sendCalls` for seamless UX
 
 ## 📱 Pages & Features
@@ -161,17 +144,13 @@ const sdk = createBaseAccountSDK({
 
 ### Environment Variables
 
-| Variable                          | Description           | Default                                      |
-| --------------------------------- | --------------------- | -------------------------------------------- |
-| `NEXT_PUBLIC_USDC_ADDRESS`        | USDC contract address | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
-| `NEXT_PUBLIC_RECIPIENT_ADDRESS`   | Payment recipient     | `0x90479a1128ab97888fDc2507a63C9cb50B3417fb` |
-| `NEXT_PUBLIC_HUDDLE01_PROJECT_ID` | Huddle01 project ID   | `pi_oH3VVFDoZ51x4X7d`                        |
+All configuration is done through environment variables. See `.env.example` for a complete list of available variables and their default values.
 
 ### Customization
 
-- **Recipient Address**: Update `RECIPIENT_ADDRESS` in `src/hooks/useWallet.ts`
-- **USDC Contract**: Modify `USDC_ADDRESS` for different networks
-- **Video Calls**: Configure Huddle01 settings in environment variables
+- **Recipient Address**: Update `NEXT_PUBLIC_RECIPIENT_ADDRESS` in your `.env.local`
+- **USDC Contract**: Modify `NEXT_PUBLIC_USDC_ADDRESS` for different networks
+- **Video Calls**: Configure Huddle01 settings via environment variables
 - **Styling**: Customize themes in `app/globals.css`
 
 ## 🚀 Deployment

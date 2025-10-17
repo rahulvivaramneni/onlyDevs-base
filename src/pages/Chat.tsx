@@ -154,7 +154,7 @@ export default function Chat({
 
   const handleStartVideoCall = () => {
     // Open Huddle01 room in new tab
-    const roomUrl = "https://huddle01.app/room/bbo-uolo-yxb";
+    const roomUrl = process.env.NEXT_PUBLIC_HUDDLE01_ROOM_URL || "https://huddle01.app/room/bbo-uolo-yxb";
     window.open(roomUrl, "_blank", "noopener,noreferrer");
 
     // Add system message
@@ -243,11 +243,11 @@ export default function Chat({
   return (
     <div className="chat-page">
       {/* <iframe
-        src="https://huddle01.app/room/bbo-uolo-yxb"
+        src={process.env.NEXT_PUBLIC_HUDDLE01_ROOM_URL || "https://huddle01.app/room/bbo-uolo-yxb"}
         width="100%"
         height="100%"
       ></iframe> */}
-      {/* <p a-href="https://huddle01.app/room/bbo-uolo-yxb">MODAL</p> */}
+      {/* <p a-href={process.env.NEXT_PUBLIC_HUDDLE01_ROOM_URL || "https://huddle01.app/room/bbo-uolo-yxb"}>MODAL</p> */}
       <Navigation />
 
       {/* VideoCall component removed - now opens in new tab */}

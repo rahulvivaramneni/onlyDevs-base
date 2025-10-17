@@ -1,0 +1,73 @@
+{
+  "gigs": [
+    {
+      "id": "1760654120541",
+      "title": "React Hook useEffect causing infinite re-renders",
+      "description": "I'm having issues with useEffect causing infinite re-renders in my React component. The fetchData function keeps getting recreated on every render, causing the effect to run continuously. I've tried using useCallback but it's still not working properly. Need help debugging this issue.",
+      "tags": ["React", "JavaScript", "useEffect"],
+      "bounty": "15",
+      "status": "open",
+      "author": "You",
+      "createdAt": "2024-01-15T10:30:00.000Z",
+      "mentors": [
+        {
+          "id": "default-1760654120541",
+          "name": "Sarah Chen",
+          "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
+          "rating": 4.8,
+          "message": "I can help you with this useEffect issue! I've solved similar problems before and can guide you through the debugging process.",
+          "specialties": ["React", "JavaScript", "Performance"],
+          "baseReputation": 4200,
+          "completedGigs": 67,
+          "baseName": "sarah.dev"
+        }
+      ]
+    },
+    {
+      "id": "1760654120542",
+      "title": "Solidity gas optimization for ERC-20 contract",
+      "description": "I have an ERC-20 token contract that's consuming too much gas during transfers. The contract has some custom logic for fee calculation and I need help optimizing it to reduce gas costs. Looking for someone with experience in gas optimization techniques.",
+      "tags": ["Solidity", "Gas Optimization", "ERC-20"],
+      "bounty": "25",
+      "status": "open",
+      "author": "You",
+      "createdAt": "2024-01-14T15:45:00.000Z",
+      "mentors": [
+        {
+          "id": "default-1760654120542",
+          "name": "Marcus Rodriguez",
+          "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=marcus",
+          "rating": 4.9,
+          "message": "I specialize in Solidity gas optimization! I can help you identify the bottlenecks and implement efficient solutions to reduce your gas costs significantly.",
+          "specialties": ["Solidity", "Smart Contracts", "DeFi"],
+          "baseReputation": 5800,
+          "completedGigs": 89,
+          "baseName": "marcus.eth"
+        }
+      ]
+    },
+    {
+      "id": "1760654120543",
+      "title": "Next.js API route returning 500 error",
+      "description": "My Next.js API route is returning a 500 error when trying to fetch data from an external API. The error occurs intermittently and I can't figure out what's causing it. Need help debugging the API route and implementing proper error handling.",
+      "tags": ["Next.js", "API", "Error Handling"],
+      "bounty": "10",
+      "status": "open",
+      "author": "You",
+      "createdAt": "2024-01-13T09:20:00.000Z",
+      "mentors": [
+        {
+          "id": "default-1760654120543",
+          "name": "Emily Johnson",
+          "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=emily",
+          "rating": 4.7,
+          "message": "I can help you debug this Next.js API issue! Let's identify the root cause and implement robust error handling to prevent future occurrences.",
+          "specialties": ["Next.js", "TypeScript", "Full Stack"],
+          "baseReputation": 3600,
+          "completedGigs": 45,
+          "baseName": "emily.base"
+        }
+      ]
+    }
+  ]
+}
