@@ -1,6 +1,6 @@
 # OnlyDevs - Peer-to-Peer Live Debugging Platform
 
-> **Hackathon Project**: A revolutionary debugging platform that connects developers with mentors for real-time problem-solving, powered by Base Account SDK with seamless USDC payments.
+ A platform that connects developers with mentors for real-time problem-solving, powered by Base Account SDK with seamless USDC payments.
 
 ## 🚀 **The Problem We're Solving**
 
