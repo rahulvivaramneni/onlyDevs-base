@@ -11,10 +11,15 @@ build/
 
 # Environment variables
 .env
+.env.*
+!.env.example
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.development
+.env.production
+.env.staging
 
 # IDE
 .vscode/
@@ -86,3 +91,27 @@ jspm_packages/
 
 # TernJS port file
 .tern-port
+
+# OnlyDevs specific
+mock-db/gigs.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Package manager lock files (keep package-lock.json but ignore others)
+yarn.lock
+pnpm-lock.yaml
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
