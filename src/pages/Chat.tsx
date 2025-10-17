@@ -59,7 +59,11 @@ const mockMessages: Message[] = [
   },
 ];
 
-export default function Chat() {
+export default function Chat({
+  params,
+}: {
+  params: { gigId: string; mentorId: string };
+}) {
   const router = useRouter();
   const {
     connected,
@@ -67,10 +71,57 @@ export default function Chat() {
     loading: walletLoading,
     connectWallet,
   } = useWallet();
+
+  // State for gig data and mentor info
+  const [gig, setGig] = useState<any>(null);
+  const [mentor, setMentor] = useState<any>(null);
+  const [isLoadingGig, setIsLoadingGig] = useState(true);
+
   // Empty chat history for new mentors
   const [messages, setMessages] = useState<Message[]>([]);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
-  // Video call state removed - now opens in new tab
+
+  // Fetch gig data and mentor info
+  useEffect(() => {
+    const fetchGigData = async () => {
+      try {
+        setIsLoadingGig(true);
+        const response = await fetch(`/api/gigs/${params.gigId}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch gig');
+        }
+        
+        const gigData = await response.json();
+        setGig(gigData);
+        
+        // Find the specific mentor
+        const foundMentor = gigData.mentors.find((m: any) => m.id === params.mentorId);
+        if (foundMentor) {
+          setMentor(foundMentor);
+        } else {
+          // Fallback to mock mentor if not found
+          setMentor(mockMentor);
+        }
+      } catch (error) {
+        console.error('Error fetching gig:', error);
+        // Fallback to mock data
+        setMentor(mockMentor);
+        setGig({ bounty: "15" }); // Default bounty
+      } finally {
+        setIsLoadingGig(false);
+      }
+    };
+
+    if (params.gigId && params.mentorId) {
+      fetchGigData();
+    } else {
+      // Fallback to mock data
+      setMentor(mockMentor);
+      setGig({ bounty: "15" });
+      setIsLoadingGig(false);
+    }
+  }, [params.gigId, params.mentorId]);
 
   const handleSendMessage = (content: string) => {
     const newMessage: Message = {
@@ -87,7 +138,7 @@ export default function Chat() {
     setTimeout(() => {
       const mentorResponse: Message = {
         id: (Date.now() + 1).toString(),
-        sender: mockMentor.name,
+        sender: mentor?.name || mockMentor.name,
         content: "That's a great question! Let me help you with that.",
         timestamp: new Date(),
         isOwn: false,
@@ -129,7 +180,9 @@ export default function Chat() {
       }
     }
 
-    const success = await sendPayment("15"); // $15 bounty
+    // Use the gig's bounty amount
+    const bountyAmount = gig?.bounty || "15";
+    const success = await sendPayment(bountyAmount);
     if (success) {
       setShowSuccessToast(true);
       setTimeout(() => {
@@ -161,22 +214,28 @@ export default function Chat() {
           <h1>Chat Session</h1>
           <div className="mentor-info">
             <img
-              src={mockMentor.avatar}
-              alt={mockMentor.name}
+              src={mentor?.avatar || mockMentor.avatar}
+              alt={mentor?.name || mockMentor.name}
               className="mentor-avatar"
             />
             <div>
-              <h3>{mockMentor.name}</h3>
+              <h3>{mentor?.name || mockMentor.name}</h3>
               <div className="mentor-rating">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <span
                     key={i}
-                    className={i < mockMentor.rating ? "star filled" : "star"}
+                    className={
+                      i < (mentor?.rating || mockMentor.rating)
+                        ? "star filled"
+                        : "star"
+                    }
                   >
                     ★
                   </span>
                 ))}
-                <span className="rating-text">({mockMentor.rating}/5)</span>
+                <span className="rating-text">
+                  ({mentor?.rating || mockMentor.rating}/5)
+                </span>
               </div>
               {/* Video call indicator removed - now opens in new tab */}
             </div>
@@ -194,8 +253,10 @@ export default function Chat() {
             onSendMessage={handleSendMessage}
             onStartVideoCall={handleStartVideoCall}
             onMarkSolved={handleMarkSolved}
-            mentorName={mockMentor.name}
+            mentorName={mentor?.name || mockMentor.name}
             isLoading={walletLoading}
+            isWalletConnected={connected}
+            bountyAmount={gig?.bounty || "15"}
           />
         </motion.div>
       </motion.div>
@@ -208,7 +269,7 @@ export default function Chat() {
           exit={{ opacity: 0, y: 50 }}
           transition={{ duration: 0.3 }}
         >
-          ✅ Payment sent successfully! $15 USDC transferred.
+          ✅ Payment sent successfully! ${gig?.bounty || "15"} USDC transferred.
         </motion.div>
       )}
     </div>

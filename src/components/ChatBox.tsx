@@ -18,6 +18,8 @@ interface ChatBoxProps {
   onMarkSolved: () => void;
   mentorName: string;
   isLoading?: boolean;
+  isWalletConnected?: boolean;
+  bountyAmount?: string;
 }
 
 // Helper function to format time consistently
@@ -66,6 +68,8 @@ export function ChatBox({
   onMarkSolved,
   mentorName,
   isLoading = false,
+  isWalletConnected = false,
+  bountyAmount = "15",
 }: ChatBoxProps) {
   const [newMessage, setNewMessage] = useState("");
 
@@ -89,7 +93,12 @@ export function ChatBox({
             onClick={onMarkSolved}
             disabled={isLoading}
           >
-            {isLoading ? "⏳ Processing..." : "✅ Mark as Solved"}
+            {isLoading 
+              ? "⏳ Processing..." 
+              : isWalletConnected 
+                ? `💰 Make Payment ($${bountyAmount})` 
+                : "🔗 Connect Wallet"
+            }
           </button>
         </div>
       </div>

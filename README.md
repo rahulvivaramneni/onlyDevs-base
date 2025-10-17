@@ -5,6 +5,7 @@ A modern web application that connects developers who are stuck on coding issues
 ## 🚀 Features
 
 ### Core Functionality
+
 - **Gig Posting**: Developers can post coding challenges with custom bounty amounts
 - **Mentor Matching**: Experienced developers can browse and offer help on gigs
 - **Live Communication**: Real-time chat and video call integration
@@ -12,6 +13,7 @@ A modern web application that connects developers who are stuck on coding issues
 - **Base Account Integration**: Seamless wallet connection with automatic sub-account creation
 
 ### Technical Features
+
 - **Modern UI**: Clean, responsive design with dark/light theme support
 - **Real-time Updates**: Live chat and video call capabilities
 - **Payment Processing**: On-chain USDC transfers using Base Account SDK
@@ -39,22 +41,26 @@ A modern web application that connects developers who are stuck on coding issues
 ### Setup
 
 1. **Clone the repository**:
+
 ```bash
 git clone https://github.com/YOUR_USERNAME/OnlyDev-base.git
 cd OnlyDev-base
 ```
 
 2. **Install dependencies**:
+
 ```bash
 npm install
 ```
 
 3. **Set up environment variables**:
+
 ```bash
 cp .env.example .env.local
 ```
 
 Edit `.env.local` with your configuration:
+
 ```env
 # Base Account SDK Configuration
 NEXT_PUBLIC_APP_NAME=OnlyDevs
@@ -73,6 +79,7 @@ NEXT_PUBLIC_HUDDLE01_ROOM_URL=https://huddle01.app/room/bbo-uolo-yxb
 ```
 
 4. **Run the development server**:
+
 ```bash
 npm run dev
 ```
@@ -99,8 +106,8 @@ const sdk = createBaseAccountSDK({
   appLogoUrl: "https://base.org/logo.png",
   appChainIds: [baseSepolia.id],
   subAccounts: {
-    creation: "on-connect",    // Auto-create sub account on connect
-    defaultAccount: "sub",     // Use sub account for transactions
+    creation: "on-connect", // Auto-create sub account on connect
+    defaultAccount: "sub", // Use sub account for transactions
   },
 });
 ```
@@ -115,31 +122,37 @@ const sdk = createBaseAccountSDK({
 ## 📱 Pages & Features
 
 ### Home Page
+
 - Hero section with call-to-action
 - Feature highlights
 - Navigation to key sections
 
 ### Post Gig Page
+
 - Form to create new gigs
 - Bounty amount input (minimum 0.0001 USDC)
 - Tag system for categorization
 
 ### Browse Gigs Page
+
 - Grid of available gigs
 - Filter by status and tags
 - Real-time updates
 
 ### Gig Detail Page
+
 - Detailed gig information
 - Mentor offers with ratings and Base reputation
 - Approve mentor functionality
 
 ### Chat Page
+
 - Real-time messaging
 - Video call integration
 - Payment processing
 
 ### Profile Page
+
 - User statistics
 - Wallet information
 - USDC balance display
@@ -148,11 +161,11 @@ const sdk = createBaseAccountSDK({
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_USDC_ADDRESS` | USDC contract address | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
-| `NEXT_PUBLIC_RECIPIENT_ADDRESS` | Payment recipient | `0x90479a1128ab97888fDc2507a63C9cb50B3417fb` |
-| `NEXT_PUBLIC_HUDDLE01_PROJECT_ID` | Huddle01 project ID | `pi_oH3VVFDoZ51x4X7d` |
+| Variable                          | Description           | Default                                      |
+| --------------------------------- | --------------------- | -------------------------------------------- |
+| `NEXT_PUBLIC_USDC_ADDRESS`        | USDC contract address | `0x036CbD53842c5426634e7929541eC2318f3dCF7e` |
+| `NEXT_PUBLIC_RECIPIENT_ADDRESS`   | Payment recipient     | `0x90479a1128ab97888fDc2507a63C9cb50B3417fb` |
+| `NEXT_PUBLIC_HUDDLE01_PROJECT_ID` | Huddle01 project ID   | `pi_oH3VVFDoZ51x4X7d`                        |
 
 ### Customization
 
@@ -172,6 +185,7 @@ const sdk = createBaseAccountSDK({
 ### Other Platforms
 
 The app can be deployed to any platform supporting Next.js:
+
 - Netlify
 - Railway
 - AWS Amplify
@@ -199,6 +213,7 @@ MIT License - see [LICENSE](LICENSE) file for details
 ## 🆘 Support
 
 For support and questions:
+
 - Create an issue in this repository
 - Check the [Base Account docs](https://docs.base.org/base-account)
 - Join the [Base Discord](https://discord.gg/buildonbase)
