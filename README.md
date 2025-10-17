@@ -1,195 +1,223 @@
 # OnlyDevs - Peer-to-Peer Live Debugging Platform
 
-A modern web application that connects developers who are stuck on coding issues with experienced mentors who can help them debug live via chat or video calls. Built with Next.js, TypeScript, and Base Account SDK for seamless USDC payments.
+> **Hackathon Project**: A revolutionary debugging platform that connects developers with mentors for real-time problem-solving, powered by Base Account SDK with seamless USDC payments.
 
-## 🚀 Features
+## 🚀 **The Problem We're Solving**
 
-### Core Functionality
+Developers often get stuck on coding issues and need expert help, but traditional debugging support is either:
+- **Expensive** (consulting fees)
+- **Slow** (forums, Stack Overflow)
+- **Inconvenient** (scheduling calls, time zones)
 
-- **Gig Posting**: Developers can post coding challenges with custom bounty amounts
-- **Mentor Matching**: Experienced developers can browse and offer help on gigs
-- **Live Communication**: Real-time chat and video call integration
-- **Micro-Payments**: USDC payment system supporting amounts as low as 0.0001 USDC
-- **Base Account Integration**: Seamless wallet connection with automatic sub-account creation
+## 💡 **Our Solution: OnlyDevs**
 
-### Technical Features
+OnlyDevs is a peer-to-peer live debugging platform where developers can:
+1. **Post coding challenges** with custom bounty amounts
+2. **Connect with expert mentors** for real-time debugging
+3. **Pay only when problems are solved** using USDC on Base
+4. **Debug live** via chat and video calls
 
-- **Modern UI**: Clean, responsive design with dark/light theme support
-- **Real-time Updates**: Live chat and video call capabilities
-- **Payment Processing**: On-chain USDC transfers using Base Account SDK
-- **Animation**: Smooth transitions with Framer Motion
+## 🔥 **Key Innovation: Base Account SDK Integration**
 
-## 🛠️ Tech Stack
+### **Seamless Payments Without Wallet Popups**
 
-- **Frontend**: Next.js 14, React, TypeScript
-- **Styling**: TailwindCSS with custom CSS variables
-- **Animations**: Framer Motion
-- **Blockchain**: Base Account SDK, Viem
-- **Payments**: USDC on Base Sepolia
-- **Video Calls**: Huddle01 integration
-- **State Management**: React Context API
+Our biggest technical achievement is implementing **Base Account SDK** with **spend permissions** that eliminate the need for wallet popups during payments:
 
-## 📦 Installation
+```typescript
+// Traditional approach - requires wallet popup for every transaction
+const tx = await wallet.sendTransaction({...}); // ❌ Popup required
 
-### Prerequisites
-
-- Node.js 18+ installed
-- A Base Account (create one at [account.base.app](https://account.base.app))
-- USDC on Base Sepolia testnet
-
-### Setup
-
-1. **Clone the repository**:
-
-```bash
-git clone https://github.com/YOUR_USERNAME/OnlyDev-base.git
-cd OnlyDev-base
+// Our Base Account SDK approach - seamless UX
+const callsId = await provider.request({
+  method: "wallet_sendCalls",
+  params: [{
+    version: "2.0",
+    atomicRequired: true,
+    chainId: `0x${baseSepolia.id.toString(16)}`,
+    from: subAccountAddress,
+    calls: [{
+      to: USDC_ADDRESS,
+      data: encodedTransferData,
+      value: "0x0",
+    }],
+    capabilities: {}, // Spend permissions handled automatically
+  }],
+}); // ✅ No popup, seamless payment
 ```
 
-2. **Install dependencies**:
+### **Automatic Sub-Account Creation**
 
-```bash
-npm install
-```
-
-3. **Set up environment variables**:
-
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local` with your configuration (see `.env.example` for all available variables).
-
-4. **Run the development server**:
-
-```bash
-npm run dev
-```
-
-5. **Open [http://localhost:3000](http://localhost:3000)** in your browser
-
-## 🎯 How It Works
-
-### User Flow
-
-1. **Post a Gig**: Developers describe their coding challenge and set a bounty amount
-2. **Browse Gigs**: Mentors can browse available gigs and offer help
-3. **Chat & Debug**: Selected mentors and gig posters communicate via real-time chat
-4. **Video Calls**: Optional video calls for live debugging sessions
-5. **Payment**: Once resolved, the poster sends USDC payment to the mentor
-
-### Base Account Integration
-
-The app uses Base Account SDK with automatic sub-account creation:
+Base Account SDK automatically creates sub-accounts for users:
 
 ```typescript
 const sdk = createBaseAccountSDK({
-  appName: process.env.NEXT_PUBLIC_APP_NAME || "OnlyDevs",
-  appLogoUrl:
-    process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
+  appName: "OnlyDevs",
+  appLogoUrl: "https://base.org/logo.png",
   appChainIds: [baseSepolia.id],
   subAccounts: {
-    creation: "on-connect", // Auto-create sub account on connect
-    defaultAccount: "sub", // Use sub account for transactions
+    creation: "on-connect", // Auto-create sub account
+    defaultAccount: "sub",   // Use sub account for transactions
   },
 });
 ```
 
-## 📱 Pages & Features
+### **Micro-Payment Support**
 
-### Home Page
+Support for payments as low as **0.0001 USDC**:
 
-- Hero section with call-to-action
-- Feature highlights
-- Navigation to key sections
+```typescript
+const amountInUnits = parseUnits("0.0001", 6); // Supports micro-payments
+const data = encodeFunctionData({
+  abi: ERC20_ABI,
+  functionName: "transfer",
+  args: [recipientAddress, amountInUnits],
+});
+```
 
-### Post Gig Page
+## 🛠️ **Technical Architecture**
 
-- Form to create new gigs
-- Bounty amount input (minimum 0.0001 USDC)
-- Tag system for categorization
+### **Frontend Stack**
+- **Next.js 14** with App Router
+- **TypeScript** for type safety
+- **TailwindCSS** for styling
+- **Framer Motion** for animations
 
-### Browse Gigs Page
+### **Blockchain Integration**
+- **Base Account SDK** for wallet management
+- **Viem** for transaction encoding
+- **USDC on Base Sepolia** for payments
+- **ERC-20 ABI** for token transfers
 
-- Grid of available gigs
-- Filter by status and tags
-- Real-time updates
+### **Real-time Features**
+- **Huddle01** for video calls
+- **Mock chat system** for real-time messaging
+- **Local state management** with React Context
 
-### Gig Detail Page
+## 🎯 **Core Features**
 
-- Detailed gig information
-- Mentor offers with ratings and Base reputation
-- Approve mentor functionality
+### **1. Gig Posting System**
+- Developers post coding challenges
+- Set custom bounty amounts (minimum 0.0001 USDC)
+- Add tags for categorization
+- Real-time mentor matching
 
-### Chat Page
+### **2. Mentor Marketplace**
+- Expert developers browse available gigs
+- Professional profiles with Base reputation scores
+- Specialized skills and completed gig history
+- One-click approval system
 
-- Real-time messaging
-- Video call integration
-- Payment processing
+### **3. Live Debugging Sessions**
+- Real-time chat interface
+- Video call integration via Huddle01
+- Screen sharing capabilities
+- Session recording (optional)
 
-### Profile Page
+### **4. Seamless Payment System**
+- **No wallet popups** during payment
+- Automatic USDC transfers on problem resolution
+- Transaction confirmation with BaseScan links
+- Payment success animations and notifications
 
-- User statistics
-- Wallet information
-- USDC balance display
+## 🔧 **Base Account SDK Benefits**
 
-## 🔧 Configuration
+### **For Users:**
+- **One-time wallet connection** - no repeated popups
+- **Automatic sub-account creation** - enhanced privacy
+- **Seamless payments** - no transaction confirmations
+- **Micro-payment support** - pay as little as 0.0001 USDC
 
-### Environment Variables
+### **For Developers:**
+- **Simplified integration** - fewer user friction points
+- **Better UX** - no wallet popup interruptions
+- **Enhanced security** - sub-accounts isolate funds
+- **Cost-effective** - lower gas fees on Base
 
-All configuration is done through environment variables. See `.env.example` for a complete list of available variables and their default values.
+## 🚀 **Getting Started**
 
-### Customization
+### **Prerequisites**
+- Node.js 18+
+- Base Account (create at [account.base.app](https://account.base.app))
+- USDC on Base Sepolia testnet
 
-- **Recipient Address**: Update `NEXT_PUBLIC_RECIPIENT_ADDRESS` in your `.env.local`
-- **USDC Contract**: Modify `NEXT_PUBLIC_USDC_ADDRESS` for different networks
-- **Video Calls**: Configure Huddle01 settings via environment variables
-- **Styling**: Customize themes in `app/globals.css`
+### **Quick Setup**
 
-## 🚀 Deployment
+1. **Clone and install**:
+```bash
+git clone https://github.com/YOUR_USERNAME/OnlyDev-base.git
+cd OnlyDev-base
+npm install
+```
 
-### Vercel (Recommended)
+2. **Configure environment**:
+```bash
+cp .env.example .env.local
+# Edit .env.local with your Base Account settings
+```
 
-1. **Connect your GitHub repository** to Vercel
-2. **Set environment variables** in Vercel dashboard
-3. **Deploy** automatically on push to main branch
+3. **Run the application**:
+```bash
+npm run dev
+```
 
-### Other Platforms
+4. **Open [http://localhost:3000](http://localhost:3000)**
 
-The app can be deployed to any platform supporting Next.js:
+## 💰 **Payment Flow Demo**
 
-- Netlify
-- Railway
-- AWS Amplify
-- DigitalOcean App Platform
+1. **Post a Gig**: Set bounty amount (e.g., 5 USDC)
+2. **Mentor Joins**: Expert offers help via chat
+3. **Live Debugging**: Video call + screen sharing
+4. **Problem Solved**: Click "Approve Mentor"
+5. **Seamless Payment**: USDC transferred automatically
+6. **Confirmation**: Transaction details + BaseScan link
 
-## 🤝 Contributing
+## 🏆 **Hackathon Highlights**
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -m 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
+### **Technical Innovation**
+- **First-of-its-kind** debugging platform with Base Account SDK
+- **Zero-popup payments** using spend permissions
+- **Micro-payment support** for flexible pricing
+- **Real-time collaboration** tools
 
-## 📄 License
+### **User Experience**
+- **One-click mentor approval** - no complex workflows
+- **Instant payments** - no waiting for confirmations
+- **Professional profiles** - Base reputation system
+- **Mobile-responsive** design
 
-MIT License - see [LICENSE](LICENSE) file for details
+### **Blockchain Integration**
+- **Base Account SDK** for seamless wallet experience
+- **USDC payments** on Base Sepolia
+- **Sub-account isolation** for enhanced security
+- **Transaction transparency** with BaseScan integration
 
-## 🔗 Links
+## 🔮 **Future Roadmap**
+
+- **Real-time chat** with WebSocket integration
+- **AI-powered mentor matching** based on problem complexity
+- **Reputation system** with on-chain credentials
+- **Multi-token support** beyond USDC
+- **Mobile app** with push notifications
+
+## 🤝 **Contributing**
+
+This is a hackathon project! Feel free to:
+- Fork and experiment
+- Submit issues and suggestions
+- Contribute to the codebase
+- Build upon our Base Account SDK integration
+
+## 📄 **License**
+
+MIT License - Built for the Base ecosystem hackathon
+
+## 🔗 **Resources**
 
 - [Base Account Documentation](https://docs.base.org/base-account)
 - [Base Account SDK](https://github.com/base/account-sdk)
-- [Huddle01 Documentation](https://huddle01.com/docs)
-- [Next.js Documentation](https://nextjs.org/docs)
-
-## 🆘 Support
-
-For support and questions:
-
-- Create an issue in this repository
-- Check the [Base Account docs](https://docs.base.org/base-account)
-- Join the [Base Discord](https://discord.gg/buildonbase)
+- [Huddle01 Video SDK](https://huddle01.com/docs)
+- [Base Sepolia Faucet](https://bridge.base.org/deposit)
 
 ---
 
-**Built with ❤️ using Base Account SDK**
+**Built with ❤️ using Base Account SDK - Revolutionizing developer collaboration through seamless blockchain payments**

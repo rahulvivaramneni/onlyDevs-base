@@ -1280,7 +1280,7 @@ body {
 }
 
 .specialty-tag {
-  background: rgba(107, 114, 128, 0.15);
+  background:#516781;
   color: rgba(107, 114, 128, 0.8);
   padding: 0.25rem 0.5rem;
   border-radius: 0.375rem;
