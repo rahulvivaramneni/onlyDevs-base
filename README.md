@@ -26,8 +26,7 @@ OnlyDevs is a peer-to-peer live debugging platform where developers can:
 **Base Account SDK** with **spend permissions** that eliminate the need for wallet popups during payments:
 
 ```typescript
-// Traditional approach - requires wallet popup for every transaction
-const tx = await wallet.sendTransaction({...}); // ❌ Popup required
+const tx = await wallet.sendTransaction({...}); 
 
 // Our Base Account SDK approach - seamless UX
 const callsId = await provider.request({
