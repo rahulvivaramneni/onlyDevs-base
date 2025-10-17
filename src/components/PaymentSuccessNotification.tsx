@@ -62,8 +62,8 @@ export function PaymentSuccessNotification({
                   animationDelay: `${i * 0.1}s`,
                 }}
                 initial={{ y: -100, rotate: 0 }}
-                animate={{ 
-                  y: window.innerHeight + 100, 
+                animate={{
+                  y: window.innerHeight + 100,
                   rotate: 360,
                 }}
                 transition={{
@@ -82,11 +82,11 @@ export function PaymentSuccessNotification({
           initial={{ scale: 0.8, opacity: 0, y: 50 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.8, opacity: 0, y: 50 }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 300, 
+          transition={{
+            type: "spring",
+            stiffness: 300,
             damping: 25,
-            duration: 0.6 
+            duration: 0.6,
           }}
         >
           {/* Success Icon with Animation */}
@@ -94,11 +94,11 @@ export function PaymentSuccessNotification({
             className="success-icon"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ 
-              type: "spring", 
-              stiffness: 500, 
+            transition={{
+              type: "spring",
+              stiffness: 500,
               damping: 15,
-              delay: 0.2 
+              delay: 0.2,
             }}
           >
             <motion.div
@@ -156,18 +156,22 @@ export function PaymentSuccessNotification({
           >
             <div className="detail-row">
               <span className="detail-label">Amount:</span>
-              <span className="detail-value amount">${transactionDetails.amount} USDC</span>
+              <span className="detail-value amount">
+                ${transactionDetails.amount} USDC
+              </span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Transaction ID:</span>
               <span className="detail-value transaction-id">
-                {transactionDetails.transactionId.slice(0, 8)}...{transactionDetails.transactionId.slice(-8)}
+                {transactionDetails.transactionId.slice(0, 8)}...
+                {transactionDetails.transactionId.slice(-8)}
               </span>
             </div>
             <div className="detail-row">
               <span className="detail-label">Recipient:</span>
               <span className="detail-value recipient">
-                {transactionDetails.recipient.slice(0, 6)}...{transactionDetails.recipient.slice(-4)}
+                {transactionDetails.recipient.slice(0, 6)}...
+                {transactionDetails.recipient.slice(-4)}
               </span>
             </div>
             <div className="detail-row">
@@ -185,17 +189,17 @@ export function PaymentSuccessNotification({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
           >
-            <button
-              className="close-button"
-              onClick={onClose}
-            >
+            <button className="close-button" onClick={onClose}>
               Close
             </button>
             <button
               className="view-transaction-button"
               onClick={() => {
                 // In a real app, this would open the transaction in a block explorer
-                window.open(`https://sepolia.basescan.org/tx/${transactionDetails.transactionId}`, '_blank');
+                window.open(
+                  `https://sepolia.basescan.org/tx/${transactionDetails.transactionId}`,
+                  "_blank"
+                );
               }}
             >
               View on BaseScan
@@ -210,24 +214,30 @@ export function PaymentSuccessNotification({
                 className="confetti-piece"
                 style={{
                   left: `${Math.random() * 100}%`,
-                  backgroundColor: ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'][Math.floor(Math.random() * 5)],
+                  backgroundColor: [
+                    "#22c55e",
+                    "#3b82f6",
+                    "#f59e0b",
+                    "#ef4444",
+                    "#8b5cf6",
+                  ][Math.floor(Math.random() * 5)],
                 }}
-                initial={{ 
-                  y: -10, 
-                  x: 0, 
+                initial={{
+                  y: -10,
+                  x: 0,
                   rotate: 0,
-                  opacity: 1 
+                  opacity: 1,
                 }}
-                animate={{ 
-                  y: 200, 
+                animate={{
+                  y: 200,
                   x: (Math.random() - 0.5) * 100,
                   rotate: 360,
-                  opacity: 0 
+                  opacity: 0,
                 }}
                 transition={{
                   duration: 2,
                   delay: Math.random() * 0.5,
-                  ease: "easeOut"
+                  ease: "easeOut",
                 }}
               />
             ))}

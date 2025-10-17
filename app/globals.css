@@ -2239,3 +2239,43 @@ body {
     word-break: break-all;
   }
 }
+
+/* Disconnect Button Styles */
+.disconnect-button {
+  background: var(--error);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 1rem;
+}
+
+.disconnect-button:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.disconnect-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.wallet-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--success);
+  border-radius: 0.75rem;
+  color: var(--success);
+  font-weight: 600;
+  flex-wrap: wrap;
+}

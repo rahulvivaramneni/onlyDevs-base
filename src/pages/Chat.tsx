@@ -188,35 +188,41 @@ export default function Chat({
     // Use the gig's bounty amount
     const bountyAmount = gig?.bounty || "15";
     const result = await sendPayment(bountyAmount);
-    
+
     if (result.success) {
       // Store transaction details for the notification
       setTransactionDetails(result);
       setShowPaymentSuccess(true);
-      
+
       // Send transaction details to mentor in chat
       const paymentMessage: Message = {
         id: Date.now().toString(),
         sender: "System",
-        content: `💰 Payment of $${result.amount} USDC has been sent! Transaction ID: ${result.transactionId.slice(0, 8)}...${result.transactionId.slice(-8)}`,
+        content: `💰 Payment of $${
+          result.amount
+        } USDC has been sent! Transaction ID: ${result.transactionId.slice(
+          0,
+          8
+        )}...${result.transactionId.slice(-8)}`,
         timestamp: new Date(),
         isOwn: false,
       };
-      
+
       setMessages((prev) => [...prev, paymentMessage]);
-      
+
       // Simulate mentor acknowledgment
       setTimeout(() => {
         const mentorAcknowledgment: Message = {
           id: (Date.now() + 1).toString(),
           sender: mentor?.name || mockMentor.name,
-          content: "Thank you for the payment! I'm glad I could help you solve this issue. Feel free to reach out if you need any more assistance! 🎉",
+          content:
+            "Thank you for the payment! I'm glad I could help you solve this issue. Feel free to reach out if you need any more assistance! 🎉",
           timestamp: new Date(),
           isOwn: false,
         };
         setMessages((prev) => [...prev, mentorAcknowledgment]);
       }, 2000);
-      
+
       // Navigate to profile after notification closes
       setTimeout(() => {
         router.push("/profile");

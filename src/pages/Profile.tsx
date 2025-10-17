@@ -10,6 +10,7 @@ export default function Profile() {
     universalAddress,
     subAccountAddress,
     connectWallet,
+    disconnectWallet,
     loading,
     usdcBalance,
     fetchUSDCBalance,
@@ -139,6 +140,13 @@ export default function Profile() {
                 <div className="wallet-status">
                   <span className="status-indicator connected"></span>
                   Wallet Connected
+                  <button 
+                    className="disconnect-button"
+                    onClick={disconnectWallet}
+                    disabled={loading}
+                  >
+                    Disconnect
+                  </button>
                 </div>
               </div>
             )}

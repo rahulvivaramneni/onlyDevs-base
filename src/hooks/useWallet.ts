@@ -60,6 +60,43 @@ export function useWallet() {
   const [status, setStatus] = useState("Ready to connect");
   const [usdcBalance, setUsdcBalance] = useState<string>("0.00");
 
+  // Load wallet state from localStorage on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      const savedState = localStorage.getItem('wallet-state');
+      if (savedState) {
+        const parsedState = JSON.parse(savedState);
+        if (parsedState.connected && parsedState.universalAddress && parsedState.subAccountAddress) {
+          setConnected(parsedState.connected);
+          setUniversalAddress(parsedState.universalAddress);
+          setSubAccountAddress(parsedState.subAccountAddress);
+          setStatus("Wallet connected (restored from session)");
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load wallet state from localStorage:", error);
+    }
+  }, []);
+
+  // Save wallet state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    try {
+      const walletState = {
+        connected,
+        universalAddress,
+        subAccountAddress,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('wallet-state', JSON.stringify(walletState));
+    } catch (error) {
+      console.error("Failed to save wallet state to localStorage:", error);
+    }
+  }, [connected, universalAddress, subAccountAddress]);
+
   // Initialize SDK with quickstart configuration
   useEffect(() => {
     const initializeSDK = async () => {
@@ -125,6 +162,42 @@ export function useWallet() {
       );
     } finally {
       setLoading(false);
+    }
+  };
+
+  const disconnectWallet = () => {
+    setConnected(false);
+    setUniversalAddress("");
+    setSubAccountAddress("");
+    setUsdcBalance("0.00");
+    setStatus("Wallet disconnected");
+    
+    // Clear localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('wallet-state');
+    }
+  };
+
+  const checkWalletConnection = async () => {
+    if (!provider || !connected) return false;
+    
+    try {
+      const accounts = (await provider.request({
+        method: "eth_accounts",
+        params: [],
+      })) as string[];
+      
+      // Check if we still have the same accounts
+      if (accounts.length === 0 || accounts[0] !== subAccountAddress) {
+        disconnectWallet();
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      console.error("Failed to check wallet connection:", error);
+      disconnectWallet();
+      return false;
     }
   };
 
@@ -211,14 +284,14 @@ export function useWallet() {
         })) as string;
 
         setStatus(`Transaction sent! Calls ID: ${callsId}`);
-        
+
         // Return transaction details for UI display
         return {
           success: true,
           transactionId: callsId,
           amount: amount,
           recipient: RECIPIENT_ADDRESS,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         };
       } catch (error) {
         console.error("Transaction failed:", error);
@@ -229,7 +302,7 @@ export function useWallet() {
         );
         return {
           success: false,
-          error: error instanceof Error ? error.message : "Unknown error"
+          error: error instanceof Error ? error.message : "Unknown error",
         };
       } finally {
         setLoading(false);
@@ -237,6 +310,13 @@ export function useWallet() {
     },
     [provider, subAccountAddress]
   );
+
+  // Check wallet connection when provider is ready and we have restored state
+  useEffect(() => {
+    if (provider && connected && subAccountAddress) {
+      checkWalletConnection();
+    }
+  }, [provider, connected, subAccountAddress]);
 
   // Fetch USDC balance when wallet connects
   useEffect(() => {
@@ -254,6 +334,8 @@ export function useWallet() {
     status,
     usdcBalance,
     connectWallet,
+    disconnectWallet,
+    checkWalletConnection,
     sendPayment,
     fetchUSDCBalance,
   };
