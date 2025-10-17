@@ -17,7 +17,6 @@ A modern web application that connects developers who are stuck on coding issues
 - **Modern UI**: Clean, responsive design with dark/light theme support
 - **Real-time Updates**: Live chat and video call capabilities
 - **Payment Processing**: On-chain USDC transfers using Base Account SDK
-- **Data Persistence**: Mock JSON server for gig and mentor data
 - **Animation**: Smooth transitions with Framer Motion
 
 ## 🛠️ Tech Stack
@@ -86,7 +85,8 @@ The app uses Base Account SDK with automatic sub-account creation:
 ```typescript
 const sdk = createBaseAccountSDK({
   appName: process.env.NEXT_PUBLIC_APP_NAME || "OnlyDevs",
-  appLogoUrl: process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
+  appLogoUrl:
+    process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
   appChainIds: [baseSepolia.id],
   subAccounts: {
     creation: "on-connect", // Auto-create sub account on connect
@@ -94,13 +94,6 @@ const sdk = createBaseAccountSDK({
   },
 });
 ```
-
-### Payment System
-
-- **Token**: USDC on Base Sepolia
-- **Minimum Amount**: 0.0001 USDC
-- **Recipient**: Configurable via `NEXT_PUBLIC_RECIPIENT_ADDRESS`
-- **Transaction**: Uses `wallet_sendCalls` for seamless UX
 
 ## 📱 Pages & Features
 

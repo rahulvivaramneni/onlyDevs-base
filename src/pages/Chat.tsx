@@ -154,7 +154,9 @@ export default function Chat({
 
   const handleStartVideoCall = () => {
     // Open Huddle01 room in new tab
-    const roomUrl = process.env.NEXT_PUBLIC_HUDDLE01_ROOM_URL || "https://huddle01.app/room/bbo-uolo-yxb";
+    const roomUrl =
+      process.env.NEXT_PUBLIC_HUDDLE01_ROOM_URL ||
+      "https://huddle01.app/room/bbo-uolo-yxb";
     window.open(roomUrl, "_blank", "noopener,noreferrer");
 
     // Add system message

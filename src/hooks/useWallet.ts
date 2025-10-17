@@ -6,8 +6,12 @@ import { baseSepolia } from "viem/chains";
 import { encodeFunctionData, parseUnits, formatUnits } from "viem";
 
 // USDC contract address on Base Sepolia
-const USDC_ADDRESS = process.env.NEXT_PUBLIC_USDC_ADDRESS || "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
-const RECIPIENT_ADDRESS = process.env.NEXT_PUBLIC_RECIPIENT_ADDRESS || "0x90479a1128ab97888fDc2507a63C9cb50B3417fb";
+const USDC_ADDRESS =
+  process.env.NEXT_PUBLIC_USDC_ADDRESS ||
+  "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+const RECIPIENT_ADDRESS =
+  process.env.NEXT_PUBLIC_RECIPIENT_ADDRESS ||
+  "0x90479a1128ab97888fDc2507a63C9cb50B3417fb";
 
 // ERC-20 ABI for transfer and balanceOf functions
 const ERC20_ABI = [
@@ -62,13 +66,17 @@ export function useWallet() {
 
   // Load wallet state from localStorage on mount
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
+    if (typeof window === "undefined") return;
+
     try {
-      const savedState = localStorage.getItem('wallet-state');
+      const savedState = localStorage.getItem("wallet-state");
       if (savedState) {
         const parsedState = JSON.parse(savedState);
-        if (parsedState.connected && parsedState.universalAddress && parsedState.subAccountAddress) {
+        if (
+          parsedState.connected &&
+          parsedState.universalAddress &&
+          parsedState.subAccountAddress
+        ) {
           setConnected(parsedState.connected);
           setUniversalAddress(parsedState.universalAddress);
           setSubAccountAddress(parsedState.subAccountAddress);
@@ -82,16 +90,16 @@ export function useWallet() {
 
   // Save wallet state to localStorage whenever it changes
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
+    if (typeof window === "undefined") return;
+
     try {
       const walletState = {
         connected,
         universalAddress,
         subAccountAddress,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       };
-      localStorage.setItem('wallet-state', JSON.stringify(walletState));
+      localStorage.setItem("wallet-state", JSON.stringify(walletState));
     } catch (error) {
       console.error("Failed to save wallet state to localStorage:", error);
     }
@@ -103,7 +111,8 @@ export function useWallet() {
       try {
         const sdkInstance = createBaseAccountSDK({
           appName: process.env.NEXT_PUBLIC_APP_NAME || "OnlyDevs",
-          appLogoUrl: process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
+          appLogoUrl:
+            process.env.NEXT_PUBLIC_APP_LOGO_URL || "https://base.org/logo.png",
           appChainIds: [baseSepolia.id],
           // Quickstart configuration
           subAccounts: {
@@ -171,28 +180,28 @@ export function useWallet() {
     setSubAccountAddress("");
     setUsdcBalance("0.00");
     setStatus("Wallet disconnected");
-    
+
     // Clear localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('wallet-state');
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("wallet-state");
     }
   };
 
   const checkWalletConnection = async () => {
     if (!provider || !connected) return false;
-    
+
     try {
       const accounts = (await provider.request({
         method: "eth_accounts",
         params: [],
       })) as string[];
-      
+
       // Check if we still have the same accounts
       if (accounts.length === 0 || accounts[0] !== subAccountAddress) {
         disconnectWallet();
         return false;
       }
-      
+
       return true;
     } catch (error) {
       console.error("Failed to check wallet connection:", error);

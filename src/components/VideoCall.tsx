@@ -14,7 +14,8 @@ export function VideoCall({ roomUrl, onLeave }: VideoCallProps) {
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Use the provided project ID and room ID
-  const PROJECT_ID = process.env.NEXT_PUBLIC_HUDDLE01_PROJECT_ID || "pi_oH3VVFDoZ51x4X7d";
+  const PROJECT_ID =
+    process.env.NEXT_PUBLIC_HUDDLE01_PROJECT_ID || "pi_oH3VVFDoZ51x4X7d";
   const ROOM_ID = "bbo-uolo-yxb";
   const huddleRoomUrl = `https://iframe.huddle01.com/${ROOM_ID}/lobby`;
 
