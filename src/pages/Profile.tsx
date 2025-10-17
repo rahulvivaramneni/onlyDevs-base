@@ -120,7 +120,7 @@ export default function Profile() {
                 <div className="wallet-balance">
                   <label>USDC Balance:</label>
                   <span className="balance-amount">${usdcBalance}</span>
-                  <button 
+                  <button
                     className="refresh-button"
                     onClick={fetchUSDCBalance}
                     disabled={loading}

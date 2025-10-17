@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "../components/Navigation";
 import { ChatBox, Message } from "../components/ChatBox";
+import { PaymentSuccessNotification } from "../components/PaymentSuccessNotification";
 // VideoCall component removed - now opens in new tab
 import { useWallet } from "../hooks/useWallet";
 
@@ -80,6 +81,8 @@ export default function Chat({
   // Empty chat history for new mentors
   const [messages, setMessages] = useState<Message[]>([]);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+  const [transactionDetails, setTransactionDetails] = useState<any>(null);
 
   // Fetch gig data and mentor info
   useEffect(() => {
@@ -184,13 +187,50 @@ export default function Chat({
 
     // Use the gig's bounty amount
     const bountyAmount = gig?.bounty || "15";
-    const success = await sendPayment(bountyAmount);
-    if (success) {
-      setShowSuccessToast(true);
+    const result = await sendPayment(bountyAmount);
+    
+    if (result.success) {
+      // Store transaction details for the notification
+      setTransactionDetails(result);
+      setShowPaymentSuccess(true);
+      
+      // Send transaction details to mentor in chat
+      const paymentMessage: Message = {
+        id: Date.now().toString(),
+        sender: "System",
+        content: `💰 Payment of $${result.amount} USDC has been sent! Transaction ID: ${result.transactionId.slice(0, 8)}...${result.transactionId.slice(-8)}`,
+        timestamp: new Date(),
+        isOwn: false,
+      };
+      
+      setMessages((prev) => [...prev, paymentMessage]);
+      
+      // Simulate mentor acknowledgment
       setTimeout(() => {
-        setShowSuccessToast(false);
+        const mentorAcknowledgment: Message = {
+          id: (Date.now() + 1).toString(),
+          sender: mentor?.name || mockMentor.name,
+          content: "Thank you for the payment! I'm glad I could help you solve this issue. Feel free to reach out if you need any more assistance! 🎉",
+          timestamp: new Date(),
+          isOwn: false,
+        };
+        setMessages((prev) => [...prev, mentorAcknowledgment]);
+      }, 2000);
+      
+      // Navigate to profile after notification closes
+      setTimeout(() => {
         router.push("/profile");
-      }, 3000);
+      }, 8000);
+    } else {
+      // Handle payment failure
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        sender: "System",
+        content: `❌ Payment failed: ${result.error}. Please try again.`,
+        timestamp: new Date(),
+        isOwn: false,
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     }
   };
 
@@ -263,17 +303,11 @@ export default function Chat({
         </motion.div>
       </motion.div>
 
-      {showSuccessToast && (
-        <motion.div
-          className="success-toast"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          transition={{ duration: 0.3 }}
-        >
-          ✅ Payment sent successfully! ${gig?.bounty || "15"} USDC transferred.
-        </motion.div>
-      )}
+      <PaymentSuccessNotification
+        isVisible={showPaymentSuccess}
+        transactionDetails={transactionDetails}
+        onClose={() => setShowPaymentSuccess(false)}
+      />
     </div>
   );
 }

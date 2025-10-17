@@ -154,7 +154,7 @@ export function useWallet() {
 
       const balanceBigInt = BigInt(result);
       const formattedBalance = formatUnits(balanceBigInt, 6);
-      
+
       const roundedBalance = parseFloat(formattedBalance).toFixed(2);
       setUsdcBalance(roundedBalance);
     } catch (error) {
@@ -162,13 +162,6 @@ export function useWallet() {
       setUsdcBalance("0.00");
     }
   }, [provider, subAccountAddress]);
-
-  // Fetch USDC balance when wallet connects
-  useEffect(() => {
-    if (connected && subAccountAddress) {
-      fetchUSDCBalance();
-    }
-  }, [connected, subAccountAddress, fetchUSDCBalance]);
 
   const sendPayment = useCallback(
     async (amount: string) => {
@@ -218,7 +211,15 @@ export function useWallet() {
         })) as string;
 
         setStatus(`Transaction sent! Calls ID: ${callsId}`);
-        return true;
+        
+        // Return transaction details for UI display
+        return {
+          success: true,
+          transactionId: callsId,
+          amount: amount,
+          recipient: RECIPIENT_ADDRESS,
+          timestamp: new Date().toISOString()
+        };
       } catch (error) {
         console.error("Transaction failed:", error);
         setStatus(
@@ -226,13 +227,23 @@ export function useWallet() {
             error instanceof Error ? error.message : "Unknown error"
           }`
         );
-        return false;
+        return {
+          success: false,
+          error: error instanceof Error ? error.message : "Unknown error"
+        };
       } finally {
         setLoading(false);
       }
     },
     [provider, subAccountAddress]
   );
+
+  // Fetch USDC balance when wallet connects
+  useEffect(() => {
+    if (connected && subAccountAddress) {
+      fetchUSDCBalance();
+    }
+  }, [connected, subAccountAddress, fetchUSDCBalance]);
 
   return {
     provider,
