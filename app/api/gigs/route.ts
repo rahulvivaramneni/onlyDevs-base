@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const DB_PATH = path.join(process.cwd(), "mock-db", "gigs.json");
+const DB_PATH = path.join(process.cwd(), "src", "server", "gigs.json");
 
 export async function GET() {
   try {

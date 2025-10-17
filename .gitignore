@@ -93,7 +93,7 @@ jspm_packages/
 .tern-port
 
 # OnlyDevs specific
-mock-db/gigs.json
+src/server/gigs.json
 *.db
 *.sqlite
 *.sqlite3
