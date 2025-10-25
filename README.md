@@ -1,37 +1,37 @@
-🧠 OnlyDevs — Peer-to-Peer Live Debugging Platform
+# 🧠 OnlyDevs — Peer-to-Peer Live Debugging Platform
 
-A platform that connects developers and mentors for real-time debugging, powered by PayPal PYUSD, ETH, and Base Account SDK for seamless on-chain payments.
+A platform that connects developers and mentors for real-time debugging, powered by **PayPal PYUSD**, **ETH**, and **Base Account SDK** for seamless on-chain payments.
 
-🚀 The Problem
+---
+
+## 🚀 The Problem
 
 Developers often get stuck on bugs and need fast help — but current solutions are:
 
-Expensive (consultants & paid calls)
+- **Expensive** (consultants & paid calls)  
+- **Slow** (forums, Stack Overflow)  
+- **Cumbersome** (scheduling/time zones)
 
-Slow (forums, Stack Overflow)
+---
 
-Cumbersome (scheduling/time zones)
+## 💡 Our Solution: OnlyDevs
 
-💡 Our Solution: OnlyDevs
+OnlyDevs is a **peer-to-peer live debugging marketplace** where developers can:
 
-OnlyDevs is a peer-to-peer live debugging marketplace where developers can:
+1. **Post coding challenges** with bounty amounts in **ETH**, **PYUSD**, or **USDC**  
+2. **Connect instantly** with verified mentors for live debugging  
+3. **Pay seamlessly** when the problem is solved — no wallet popups  
+4. **Collaborate in real time** via chat or **Huddle01** video calls  
 
-Post coding challenges with bounty amounts in ETH, PYUSD, or USDC
+---
 
-Connect instantly with verified mentors for live debugging
+## 💰 Powered by PYUSD, ETH & Base SDK
 
-Pay seamlessly when the problem is solved — no wallet popups
+- **PayPal PYUSD (ERC-20)** allows fast and stable fiat-backed payments  
+- **ETH** offers on-chain transparency for direct wallet-to-wallet bounties  
+- **Base Account SDK** enables frictionless transactions — no repeated approvals  
 
-Collaborate in real time via chat or Huddle01 video calls
-
-💰 Powered by PYUSD, ETH & Base SDK
-
-PayPal PYUSD (ERC-20) allows fast and stable fiat-backed payments
-
-ETH offers on-chain transparency for direct wallet-to-wallet bounties
-
-Base Account SDK enables frictionless transactions — no repeated approvals
-
+```typescript
 const callsId = await provider.request({
   method: "wallet_sendCalls",
   params: [{
@@ -43,6 +43,7 @@ const callsId = await provider.request({
     }],
   }],
 });
+
 
 🏗️ Tech Stack
 
@@ -64,6 +65,16 @@ Zero-wallet-popup flow via Base Account SDK
 
 Real-time video debugging with mentors
 
-Hybrid fiat+crypto flexibility (PayPal PYUSD + ETH)
+Hybrid fiat + crypto flexibility (PayPal PYUSD + ETH)
 
 Designed for instant collaboration and trustless payments
+
+🔗 Resources
+
+Base Account SDK Docs
+
+PayPal PYUSD Info
+
+Huddle01 Video SDK
+
+Base Sepolia Faucet
