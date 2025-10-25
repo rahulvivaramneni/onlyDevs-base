@@ -43,38 +43,38 @@ const callsId = await provider.request({
     }],
   }],
 });
+```
 
+## 🏗️ Tech Stack
 
-🏗️ Tech Stack
+- Frontend: Next.js 14, TypeScript, Tailwind, Framer Motion
 
-Frontend: Next.js 14, TypeScript, Tailwind, Framer Motion
+- Payments: ETH, PYUSD, USDC via Base Account SDK
 
-Payments: ETH, PYUSD, USDC via Base Account SDK
+- Blockchain: Base Sepolia (L2), Viem for encoding
 
-Blockchain: Base Sepolia (L2), Viem for encoding
+- Video Calls: Huddle01 SDK
 
-Video Calls: Huddle01 SDK
+- Backend: Node.js, Prisma, PostgreSQL
 
-Backend: Node.js, Prisma, PostgreSQL
+## 🌟 Hackathon Highlights
 
-🌟 Hackathon Highlights
+- Seamless ETH & PYUSD micro-payments
 
-Seamless ETH & PYUSD micro-payments
+- Zero-wallet-popup flow via Base Account SDK
 
-Zero-wallet-popup flow via Base Account SDK
+- Real-time video debugging with mentors
 
-Real-time video debugging with mentors
+- Hybrid fiat + crypto flexibility (PayPal PYUSD + ETH)
 
-Hybrid fiat + crypto flexibility (PayPal PYUSD + ETH)
+- Designed for instant collaboration and trustless payments
 
-Designed for instant collaboration and trustless payments
+## 🔗 Resources
 
-🔗 Resources
+- Base Account SDK Docs
 
-Base Account SDK Docs
+- PayPal PYUSD Info
 
-PayPal PYUSD Info
+- Huddle01 Video SDK
 
-Huddle01 Video SDK
-
-Base Sepolia Faucet
+- Base Sepolia Faucet
